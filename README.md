@@ -18,7 +18,7 @@
 
 ### Docker (Recommended)
 
-Be sure that ports 8081 and 80 are available. Else you can change the ports in the `compose.yml` file.
+Be sure that ports 8081 and 80 are available. Else you can change the ports in the `compose.yaml` file.
 
 ```yaml
     # Backend
