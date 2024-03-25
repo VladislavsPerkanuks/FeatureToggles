@@ -62,4 +62,4 @@ Then you can access the application at `http://localhost:4200`
 The endpoint that determines if feature is active for user it at
 `POST /api/v1/customers/:customerID`
 
-The tests in `backend/pkg/model/toggle_test.go`, corresponds to the Example API response in the homework document.
+The tests in `backend/pkg/model/feature_test.go`, corresponds to the Example API response in the homework document.

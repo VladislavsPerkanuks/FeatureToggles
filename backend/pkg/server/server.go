@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"slices"
 	"time"
+
 	"vladislavsperkanuks/feature-toggles/pkg/model"
 
 	"github.com/gin-contrib/cors"
@@ -70,35 +71,35 @@ func (s *Server) getCustomers(c *gin.Context) {
 
 // GET /api/v1/features.
 func (s *Server) getFeatureToggles(c *gin.Context) {
-	var toggles []model.FeatureToggle
+	var features []model.FeatureToggle
 
-	s.db.Preload("Customers").Find(&toggles)
-	c.JSON(http.StatusOK, toggles)
+	s.db.Preload("Customers").Find(&features)
+	c.JSON(http.StatusOK, features)
 }
 
 // POST /api/v1/features.
 func (s *Server) createFeatureToggle(c *gin.Context) {
-	var toggle model.FeatureToggle
+	var feature model.FeatureToggle
 
-	if err := c.BindJSON(&toggle); err != nil {
+	if err := c.BindJSON(&feature); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
 		return
 	}
 
 	// Check if feature toggle with the same technical name already exists
-	var existingToggle model.FeatureToggle
+	var existingFeature model.FeatureToggle
 
-	s.db.Where("technical_name = ?", toggle.TechnicalName).First(&existingToggle)
+	s.db.Where("technical_name = ?", feature.TechnicalName).First(&existingFeature)
 
-	if existingToggle.TechnicalName != "" {
+	if existingFeature.TechnicalName != "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Feature toggle with the same technical name already exists"})
 		return
 	}
 
-	s.db.Save(&toggle)
+	s.db.Save(&feature)
 
-	c.JSON(http.StatusOK, toggle)
+	c.JSON(http.StatusOK, feature)
 }
 
 // PATCH /api/v1/features/:id.
@@ -169,7 +170,7 @@ func (s *Server) getCustomerToggles(c *gin.Context) {
 	}
 
 	var req struct {
-		Features []string `binding:"required" json:"features"`
+		FeatureNames []string `binding:"required" json:"features"`
 	}
 
 	if err := c.BindJSON(&req); err != nil {
@@ -177,10 +178,10 @@ func (s *Server) getCustomerToggles(c *gin.Context) {
 		return
 	}
 
-	// Fetch all toggles
-	var toggles []model.FeatureToggle
+	// Fetch all features
+	var features []model.FeatureToggle
 
-	s.db.Where("technical_name IN ?", req.Features).Preload("Customers").Find(&toggles)
+	s.db.Where("technical_name IN ?", req.FeatureNames).Preload("Customers").Find(&features)
 
 	type response struct {
 		TechnicalName string `json:"technicalName"`
@@ -189,25 +190,25 @@ func (s *Server) getCustomerToggles(c *gin.Context) {
 		IsExpired     bool   `json:"isExpired"`
 	}
 
-	resp := make([]response, 0, len(req.Features))
+	resp := make([]response, 0, len(req.FeatureNames))
 
-	for _, featureName := range req.Features {
+	for _, name := range req.FeatureNames {
 		// Check if feature toggle with the technical name exists in db
-		idx := slices.IndexFunc(toggles, func(t model.FeatureToggle) bool { return t.TechnicalName == featureName })
+		idx := slices.IndexFunc(features, func(t model.FeatureToggle) bool { return t.TechnicalName == name })
 
 		if idx == -1 {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": fmt.Sprintf("Feature toggle with technical name '%s' not found", featureName),
+				"error": fmt.Sprintf("Feature toggle with technical name '%s' not found", name),
 			})
 
 			return
 		}
 
 		resp = append(resp, response{
-			TechnicalName: toggles[idx].TechnicalName,
-			IsActive:      toggles[idx].IsActiveForCustomer(customer),
-			IsInverted:    *toggles[idx].IsInverted,
-			IsExpired:     toggles[idx].ExpiresOn != nil && time.Now().After(*toggles[idx].ExpiresOn),
+			TechnicalName: features[idx].TechnicalName,
+			IsActive:      features[idx].IsActiveForCustomer(customer),
+			IsInverted:    *features[idx].IsInverted,
+			IsExpired:     features[idx].ExpiresOn != nil && time.Now().After(*features[idx].ExpiresOn),
 		})
 	}
 
