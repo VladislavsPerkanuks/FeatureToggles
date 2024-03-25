@@ -23,10 +23,10 @@ Be sure that ports 8081 and 80 are available. Else you can change the ports in t
 ```yaml
     # Backend
     ports:
-      - "{PORT_FOR_BACKEND}:8081"
+      - "{PORT_FOR_BACKEND}:8081" # Default: 8081
     # NGINX
     ports:
-      - "{PORT_FOR_FRONTEND}:80"
+      - "{PORT_FOR_FRONTEND}:80" # Default: 80
 ```
 
 Then run:
