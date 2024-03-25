@@ -1,15 +1,14 @@
-import { AsyncPipe, NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogClose, MatDialogContent,
-  MatDialogRef, MatDialogTitle
+  MatDialogModule,
+  MatDialogRef
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,21 +21,17 @@ import { Customer, FeatureToggle, FeatureToggleService } from '../services/toogl
   selector: 'app-feature-dialog',
   standalone: true,
   imports: [
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
+    NgFor,
     ReactiveFormsModule,
+
+    MatButtonModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
     MatIconModule,
     MatDatepickerModule,
-    AsyncPipe,
-    NgFor,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './feature-dialog.component.html',

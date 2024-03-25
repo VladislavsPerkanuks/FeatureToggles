@@ -1,5 +1,4 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +6,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FeatureDialogComponent } from './feature-dialog/feature-dialog.component';
 import { FeatureToggle, FeatureToggleService } from './services/toogles.service';
@@ -17,19 +15,15 @@ import { FeatureToggle, FeatureToggleService } from './services/toogles.service'
   standalone: true,
   imports:
     [
-      FormsModule,
       NgFor,
       NgIf,
-      HttpClientModule,
-      MatListModule,
+      DatePipe,
+      FormsModule,
+
       MatCardModule,
       MatButtonModule,
-      AsyncPipe,
       MatIconModule,
-      DatePipe,
-      FeatureDialogComponent,
       MatCheckbox,
-      FormsModule,
     ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
