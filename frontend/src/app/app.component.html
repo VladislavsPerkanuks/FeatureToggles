@@ -1,0 +1,32 @@
+<button mat-raised-button color="primary" (click)="openDialog()">Create Feature</button>
+
+<mat-checkbox [(ngModel)]="showArchived">Show Archived</mat-checkbox>
+
+<div *ngFor="let feature of features" style="margin-top: 10px;">
+  <mat-card *ngIf="showArchived || !feature.isArchived">
+    <mat-card-header>
+      <mat-card-title>{{feature.displayName || feature.technicalName}}
+        <span *ngIf="feature.isArchived!">(ARCHIVED)</span>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p *ngIf="feature.displayName">Technical Name: {{feature.technicalName}}</p>
+      <p *ngIf="feature.description">Description: {{feature.description}}</p>
+      <p *ngIf="feature.expiresOn!">Expires On: {{feature.expiresOn | date:'MM/dd/YYYY'}}</p>
+      <p> Inverted: {{feature.isInverted}}</p>
+
+      <p *ngIf="feature.customers.length>0"> Customers: </p>
+      <ul>
+        <li *ngFor="let customer of feature.customers">ID: {{customer.ID}}</li>
+      </ul>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="openDialog(feature)">Edit<mat-icon svgIcon="edit"></mat-icon></button>
+      <button mat-button (click)="archive(feature)">{{feature.isArchived ? "Unarchive" : "Archive"}}<mat-icon
+          svgIcon="archive"></mat-icon></button>
+    </mat-card-actions>
+
+  </mat-card>
+</div>

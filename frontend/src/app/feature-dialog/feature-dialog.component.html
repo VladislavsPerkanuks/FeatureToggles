@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>{{data.selectedFeature ? "Edit" : "Create "}} Feature</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="featureForm" (ngSubmit)="onSubmit()">
+
+    <mat-form-field style="width: 100%">
+      <mat-label>Display Name</mat-label>
+      <input matInput formControlName="displayName" required="false">
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%">
+      <mat-label>Technical Name</mat-label>
+      <input matInput required formControlName="technicalName">
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%">
+      <mat-label>Expires On</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="expiresOn">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%">
+      <mat-label>Customers</mat-label>
+      <mat-select formControlName="customers" multiple>
+        <mat-option *ngFor="let customer of data.customers" [value]="customer.ID">{{customer.ID}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <section>
+      <mat-checkbox formControlName="isInverted">Inverted</mat-checkbox>
+    </section>
+
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>
