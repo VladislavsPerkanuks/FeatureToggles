@@ -44,7 +44,6 @@ Then you can access the application at `http://localhost:{PORT_FOR_FRONTEND}`
 ```bash
 cd backend
 export DEMO="true" # Populate the database with fake data
-go mod download
 go run cmd/main.go
 ```
 
