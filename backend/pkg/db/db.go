@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"time"
+
 	"vladislavsperkanuks/feature-toggles/pkg/model"
 
 	"gorm.io/driver/sqlite"
@@ -64,9 +65,7 @@ func initData(db *gorm.DB) {
 	db.Create(&archivedFeature)
 }
 
-func ptr[T any](t T) *T {
-	return &t
-}
+func ptr[T any](t T) *T { return &t }
 
 // New creates a new gorm.DB instance and performs auto migrations.
 func New(path string) (*gorm.DB, func() error, error) {

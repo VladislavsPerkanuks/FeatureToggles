@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FeatureDialogComponent } from './feature-dialog/feature-dialog.component';
-import { FeatureToggle, FeatureToggleService } from './services/toogles.service';
+import { FeatureToggle, FeatureToggleService } from './services/feature.service';
 
 @Component({
   selector: 'app-root',

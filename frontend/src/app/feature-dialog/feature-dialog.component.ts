@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { catchError, of } from 'rxjs';
-import { Customer, FeatureToggle, FeatureToggleService } from '../services/toogles.service';
+import { Customer, FeatureToggle, FeatureToggleService } from '../services/feature.service';
 
 @Component({
   selector: 'app-feature-dialog',
